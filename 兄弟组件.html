@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <div id="aa">
+        <button @click="handle">销毁事件</button>
+        <tom-jq></tom-jq>
+        <Jerry-jq></Jerry-jq>
+    </div>
+
+
+
+    <script>
+        var hub = new Vue();
+        Vue.component('tom-jq', {
+            data: function() {
+                return {
+                    num: 0
+                }
+            },
+            template: `<div>
+            <div>TOM:{{num}}</div>
+            <button @click="handle">第一个数据</button>
+            </div>`,
+            methods: {
+                handle: function() {
+                    hub.$emit('tom-event', 2)
+                }
+            },
+            mounted: function() {
+                hub.$on('jerry-event', (val) => {
+                    this.num += val
+                })
+            }
+        })
+        Vue.component('jerry-jq', {
+            data: function() {
+                return {
+                    num: 0
+                }
+            },
+            template: `<div>
+            <div>Jerry:{{num}}</div>
+            <button @click="handle">第二个数据</button>
+            </div>`,
+            methods: {
+                handle: function() {
+                    hub.$emit('jerry-event', 5)
+                }
+            },
+            mounted: function() {
+                hub.$on('tom-event', (val) => {
+                    this.num += val
+                })
+            }
+        })
+
+        var vm = new Vue({
+            el: '#aa',
+            data: {
+
+            },
+            methods: {
+                handle: function() {
+                    hub.$off()
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

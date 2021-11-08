@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <div id="leihou">
+        <div :style="{fontSize:fontSize+ 'px'}">{{namee}}</div>
+        <div>{{msg}}</div>
+        <input type=" text" v-model="msg ">
+        <input type="text " v-model="namee ">
+        <menu-item :ps-Sa="44" @menu-item="handle"></menu-item>
+    </div>
+    <script>
+        Vue.component('menu-item', {
+            props: ['psSa'],
+            template: `
+            <div>
+                <div>{{psSa}}</div>
+                <button @click='$emit("menu-item")'>字体变大</button>
+            </div>
+            `
+        });
+        var a = new Vue({
+            el: '#leihou',
+            data: {
+                msg: 'Hello World',
+                namee: '455',
+                psSa: 'bjh',
+                fontSize: 10
+            },
+            methods: {
+                handle: function() {
+                    this.fontSize += 5,
+                        console.log(4);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
